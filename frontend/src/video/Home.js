@@ -10,11 +10,10 @@ function VideoList() {
     const itemsPerPage = 50; // Set the number of videos per page
 
     useEffect(() => {
-        // Fetch all users
+        // Fetch all users (only once)
         fetch(`${BACKEND_URL}/users`)
             .then(response => response.json())
             .then(usersData => {
-                // Transform users array into an object for easier access
                 const usersById = usersData.reduce((acc, user) => {
                     acc[user.id] = user;
                     return acc;
@@ -22,22 +21,23 @@ function VideoList() {
                 setUsers(usersById);
             })
             .catch(error => console.error('Error fetching users:', error));
-
-        // Fetch all videos
-        fetch(`${BACKEND_URL}/videos`)
+    }, []); // Empty dependency array to run this effect only once
+    
+    useEffect(() => {
+        // Fetch videos for the current page
+        fetch(`${BACKEND_URL}/videos?page=${currentPage}&limit=${itemsPerPage}`)
             .then(response => response.json())
             .then(videosData => {
-                // Now that we have users, map each video to include user details
                 const videosWithUser = videosData.map(video => {
                     return { ...video, user: users[video.user_id] };
                 });
-
+    
                 setVideos(videosWithUser);
-                setPageCount(Math.ceil(videosWithUser.length / itemsPerPage));
+                setPageCount(Math.ceil(videosData.total / itemsPerPage));
             })
             .catch(error => console.error('Error fetching videos:', error));
-    }, [users]); // Depend on users to re-run this effect when users are fetched
-
+    }, [currentPage, users]); // Depend on currentPage and users
+    
     // Calculate the videos to display on the current page
     const indexOfLastVideo = currentPage * itemsPerPage;
     const indexOfFirstVideo = indexOfLastVideo - itemsPerPage;

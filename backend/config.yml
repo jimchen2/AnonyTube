@@ -2,7 +2,7 @@
 database_url: postgres://postgres:postgres@localhost/video_app_db
 jwt_secret_key: Bg7CUqMbfPPGTkdxEapKuhQzhSqmypDfNeL7KvAvx8I=
 #openssl rand -base64 32
-port: 8080
+port: 8079
 
 cloud_name: "my-cloud"
 public_url: "https://cloudflare.jimchen.me"

@@ -12,7 +12,7 @@ Kemal.config do |config|
 end
 
 before_all do |env|
-  env.response.headers.add("Access-Control-Allow-Origin", "http://localhost:3000")
+  env.response.headers.add("Access-Control-Allow-Origin", "*")
   env.response.headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
   env.response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
   # Include credentials only if you are using cookies or auth headers
