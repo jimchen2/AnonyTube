@@ -1,13 +1,13 @@
 #/config.yml
 database_url: postgres://postgres:postgres@localhost/video_app_db
-jwt_secret_key: Bg7CUqMbfPPGTkdxEapKuhQzhSqmypDfNeL7KvAvx8I=
+jwt_secret_key: 
 #openssl rand -base64 32
 port: 8079
 
 cloud_name: "my-cloud"
 public_url: "https://cloudflare.jimchen.me"
 s3_credentials:
-  access_key_id: "82e476fd74148c090d0e64ca4ee05f2a"
-  secret_access_key: "bea3fb7c401b20f1fd8c93437d7f3b884913c912082e53838fbc6038854477ef"
-  endpoint: "https://ee64074f404e392345763d53572d3d2e.r2.cloudflarestorage.com"
+  access_key_id: ""
+  secret_access_key: ""
+  endpoint: "https://[].r2.cloudflarestorage.com"
   region: "auto"
