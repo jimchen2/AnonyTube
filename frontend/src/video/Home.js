@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import VideoPage from './VideoPage'; // Ensure VideoPage is implemented with pagination
-
+import { BACKEND_URL } from '../config';
 function VideoList() {
     const [videos, setVideos] = useState([]);
     const [users, setUsers] = useState({});
@@ -11,7 +11,7 @@ function VideoList() {
 
     useEffect(() => {
         // Fetch all users
-        fetch('http://localhost:8080/api/users')
+        fetch(`${BACKEND_URL}/users`)
             .then(response => response.json())
             .then(usersData => {
                 // Transform users array into an object for easier access
@@ -24,7 +24,7 @@ function VideoList() {
             .catch(error => console.error('Error fetching users:', error));
 
         // Fetch all videos
-        fetch('http://localhost:8080/api/videos')
+        fetch(`${BACKEND_URL}/videos`)
             .then(response => response.json())
             .then(videosData => {
                 // Now that we have users, map each video to include user details

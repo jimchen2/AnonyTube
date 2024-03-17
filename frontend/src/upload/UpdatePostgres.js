@@ -1,11 +1,12 @@
 import Cookies from "js-cookie";
+import { BACKEND_URL } from "../config";
 
 export const postVideoDataToBackend = async (data) => {
   const { userId, videoTitle, videoUrl, imageUrl } = data;
   const token = Cookies.get("token");
   try {
     const response = await fetch(
-      `http://localhost:8080/api/user-videos/${userId}`,
+      `${BACKEND_URL}/user-videos/${userId}`,
       {
         method: 'POST',
         headers: {

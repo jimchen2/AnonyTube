@@ -1,11 +1,11 @@
 // ./FetchUser.js
 import Cookies from 'js-cookie';
-
+import { BACKEND_URL } from './config';
 // Function to fetch user details from the backend
 export const fetchUser = async () => {
   const token = Cookies.get('token');
   try {
-    const response = await fetch('http://localhost:8080/api/auth/validate_token', {
+    const response = await fetch(`${BACKEND_URL}/auth/validate_token`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

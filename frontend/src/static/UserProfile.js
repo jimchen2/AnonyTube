@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import VideoPage from "../video/VideoPage";
-
+import { BACKEND_URL } from '../config';
 const UserProfile = () => {
   const [videos, setVideos] = useState([]);
   const [username, setUsername] = useState(''); // Assuming you'll store the username here
@@ -16,8 +16,8 @@ const UserProfile = () => {
 
   useEffect(() => {
     setLoading(true);
-    const fetchUsers = fetch('http://localhost:8080/api/users').then(res => res.json());
-    const fetchVideos = fetch('http://localhost:8080/api/videos').then(res => res.json());
+    const fetchUsers = fetch(`${BACKEND_URL}/users`).then(res => res.json());
+    const fetchVideos = fetch(`${BACKEND_URL}/videos`).then(res => res.json());
 
     Promise.all([fetchUsers, fetchVideos])
       .then(([users, videos]) => {

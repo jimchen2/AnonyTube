@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import VideoCard from './SingleVideoCard.js'; // Make sure to import the VideoCard component
-
+import { BACKEND_URL } from '../config.js';
 function VideoDetail() {
+  
   const { id } = useParams(); // Assuming 'id' is the video ID from the URL params
   const [video, setVideo] = useState(null);
   const [user, setUser] = useState({});
@@ -11,7 +12,7 @@ function VideoDetail() {
 
   useEffect(() => {
     // Initially, fetch all users and create a map by ID for easy access
-    fetch('http://localhost:8080/api/users')
+    fetch(`${BACKEND_URL}/users`)
       .then(response => response.json())
       .then(usersData => {
         const usersById = usersData.reduce((acc, user) => {
@@ -23,7 +24,7 @@ function VideoDetail() {
       .catch(error => console.error('Error fetching users:', error));
 
     // Fetch the complete list of videos
-    fetch('http://localhost:8080/api/videos')
+    fetch(`${BACKEND_URL}/videos`)
       .then(response => response.json())
       .then(videosData => {
         const foundVideo = videosData.find(v => v.id === id);

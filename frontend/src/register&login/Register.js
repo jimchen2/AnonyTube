@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import RegisterBox from "./RegisterBox";
 import { useEffect } from "react";
+import { BACKEND_URL } from "../config";
 
-const REGISTER_API_URL = "http://localhost:8080/api/auth/signup";
-const LOGIN_API_URL = "http://localhost:8080/api/auth/login";
+const REGISTER_API_URL = `${BACKEND_URL}/auth/signup`;
+const LOGIN_API_URL = `${BACKEND_URL}/auth/login`;
 
 function CustomModal({ show, onClose, title, content }) {
   useEffect(() => {

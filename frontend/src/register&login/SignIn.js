@@ -4,8 +4,9 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { fetchUser } from "../FetchUser";
+import { BACKEND_URL } from "../config";
 
-const LOGIN_API_URL = "http://localhost:8080/api/auth/login";
+const LOGIN_API_URL = `${BACKEND_URL}/auth/login`;
 
 function CustomModal({ show, onClose, title, content }) {
   useEffect(() => {
