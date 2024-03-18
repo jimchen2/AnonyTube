@@ -35,7 +35,7 @@ function VideoCard({ video }) {
     <Card className="mb-4" style={{ maxWidth: '1000px', margin: 'auto' }}>
       <Card.Body>
         {video.id && (
-            <VideoPlayer src={videourl} alt={`${videoTitle} video`} />{" "}
+            <VideoPlayer src={videourl} alt={`${videoTitle} video`} />
         )}
         <Card.Title className="mt-2">
           {video.id ? (
