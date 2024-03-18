@@ -31,15 +31,11 @@ function VideoCard({ video }) {
       })
     : "Date not available";
 
-  const username = video.user?.username ?? "Unknown User";
-
   return (
-    <Card className="mb-4">
+    <Card className="mb-4" style={{ maxWidth: '1000px', margin: 'auto' }}>
       <Card.Body>
         {video.id && (
-          <Link to={`/video/${video.id}`}>
             <VideoPlayer src={videourl} alt={`${videoTitle} video`} />{" "}
-          </Link>
         )}
         <Card.Title className="mt-2">
           {video.id ? (
@@ -55,8 +51,6 @@ function VideoCard({ video }) {
           )}
         </Card.Title>
         <Card.Text>
-          Uploaded by:{" "}
-          {userId ? <Link to={`/user/${userId}`}>{username}</Link> : username}
           <br />
           Uploaded on: {uploadedAtDate}
         </Card.Text>
