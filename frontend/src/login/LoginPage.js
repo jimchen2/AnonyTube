@@ -11,12 +11,12 @@ import {
 } from "react-bootstrap";
 
 import { useLoginForm } from "./useLoginForm";
+import { API_BASE_URL } from "../config";
 
 function LoginPage() {
   const { username, setUsername, password, setPassword, error, handleSubmit } =
     useLoginForm();
 
-  const API_BASE_URL = "http://localhost:1241";
   const githubServiceUrl = `${API_BASE_URL}/services/github/login`;
 
   return (
