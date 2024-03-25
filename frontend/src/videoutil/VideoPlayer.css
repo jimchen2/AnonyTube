@@ -1,0 +1,61 @@
+.subtitle-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.subtitle-background {
+  background-color: #000;
+  padding: 4px 0px;
+  border-radius: 4px;
+}
+
+.subtitle-text {
+  color: white;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.subtitle-checkboxes {
+  padding: 8px;
+}
+
+.subtitle-checkbox {
+  margin-bottom: 8px;
+}
+
+.subtitle-checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #000;
+  border-radius: 3px;
+  background-color: #fff;
+  display: inline-block;
+  position: relative;
+  margin-right: 8px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.subtitle-checkbox input[type="checkbox"]:checked {
+  background-color: #000;
+}
+
+.subtitle-checkbox input[type="checkbox"]:checked::before {
+  content: "✓";
+  color: #fff;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
