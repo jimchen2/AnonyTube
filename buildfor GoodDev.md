@@ -11,27 +11,6 @@ makepkg -si --noconfirm
 yay -S mongodb-tools mongodb-bin  mongosh-bin --noconfirm
 
 
-sudo nano /etc/systemd/system/tmp.mount
-
-```
-[Unit]
-Description=Temporary Directory
-After=local-fs.target
-
-[Mount]
-What=tmpfs
-Where=/tmp
-Type=tmpfs
-Options=mode=1777,size=8G
-
-[Install]
-WantedBy=multi-user.target
-```
-
-sudo systemctl daemon-reload
-sudo systemctl enable tmp.mount
-sudo reboot
-
 su builduser
 cd ~
 python -m venv myenv
