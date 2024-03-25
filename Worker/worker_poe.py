@@ -5,7 +5,7 @@ import boto3
 from botocore.client import Config
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 import torch
-from config import mongoURI, publicurl, s3_bucket, s3_access_key, s3_secret_key, s3_endpoint
+from config import mongoURI, publicurl, s3_bucket, s3_access_key, s3_secret_key, s3_endpoint, local_model_dir
 
 from pymongo import UpdateOne
 
@@ -14,7 +14,6 @@ client = MongoClient(mongoURI)
 db = client.videoPlatform
 
 # Translation model configuration
-local_model_dir = "/home/user/Downloads/nllb-200-distilled-600M"
 model = AutoModelForSeq2SeqLM.from_pretrained(local_model_dir)
 tokenizer = AutoTokenizer.from_pretrained(local_model_dir)
 device = -1  # Force use CPU
