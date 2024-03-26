@@ -8,7 +8,7 @@ from datetime import datetime
 
 def download_video(url, download_folder, filename_template):
     file_path = os.path.join(download_folder, filename_template)
-    subprocess.run(["yt-dlp", "-o", file_path, url], check=True)
+    subprocess.run(["yt-dlp", "-o", file_path, url,"-N","100"], check=True)
     return os.path.join(download_folder, os.listdir(download_folder)[-1])
 
 def download_image(url, download_folder, filename_template):
@@ -58,6 +58,9 @@ def create_video_document(video_uuid, preview_image_url, video_url, language, ti
     video_collection.insert_one(video_data)
 
 def create_video(videourl, title, imageurl, language, tags):
+    video_path = None
+    image_path = None
+
     try:
         download_folder = "create_video_dump"
         os.makedirs(download_folder, exist_ok=True)
@@ -103,11 +106,10 @@ def create_video(videourl, title, imageurl, language, tags):
         return None
 
     finally:
-        if os.path.exists(video_path):
+        if video_path is not None and os.path.exists(video_path):
             os.remove(video_path)
-        if os.path.exists(image_path):
+        if image_path is not None and os.path.exists(image_path):
             os.remove(image_path)
-
 
 if __name__ == "__main__":
     # Example usage

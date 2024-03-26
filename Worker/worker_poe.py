@@ -6,6 +6,7 @@ from botocore.client import Config
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 import torch
 from config import mongoURI, publicurl, s3_bucket, s3_access_key, s3_secret_key, s3_endpoint, local_model_dir
+import chardet
 
 from pymongo import UpdateOne
 
@@ -96,11 +97,16 @@ def translate(text, src_lang, tgt_lang):
     return result[0]['translation_text']
 
 def translate_every_nth_line(file_path, src_lang, tgt_lang, output_file_path, n=3):
-    """Translate every nth line of the subtitle file."""
-    with open(file_path, 'r', encoding='utf-8') as file:
+    # Detect the encoding of the file
+    with open(file_path, 'rb') as file:
+        result = chardet.detect(file.read())
+
+    encoding = result['encoding']
+
+    with open(file_path, 'r', encoding=encoding, errors='replace') as file:
         lines = file.readlines()
 
-    with open(output_file_path, 'w', encoding='utf-8') as file:
+    with open(output_file_path, 'w') as file:
         for i, line in enumerate(lines, start=4):  # Start counting from 1
             if (i - 1) % n == 0:
                 translated_line = translate(line.strip(), src_lang, tgt_lang)
