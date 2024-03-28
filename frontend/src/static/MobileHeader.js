@@ -18,12 +18,20 @@ import {
   FaArrowLeft,
   FaQuestionCircle,
   FaEdit,
-  FaSignOutAlt,
   FaUserPlus,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa";
+import {
+  enable as enableDarkMode,
+  disable as disableDarkMode,
+} from "darkreader";
+import { useContext } from "react";
+import { BooleanContext } from "../global/global";
 
 function MobileHeader({ user, handleSearch }) {
   const [showSearch, setShowSearch] = useState(false);
+  const [mode, setMode] = useState("light");
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
@@ -32,6 +40,22 @@ function MobileHeader({ user, handleSearch }) {
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
+  };
+  const { boolValue, toggleBoolValue } = useContext(BooleanContext);
+
+  const toggleColorMode = () => {
+    toggleBoolValue();
+    const newMode = mode === "light" ? "dark" : "light";
+    setMode(newMode);
+    if (newMode === "dark") {
+      enableDarkMode({
+        brightness: 100,
+        contrast: 90,
+        sepia: 10,
+      });
+    } else {
+      disableDarkMode();
+    }
   };
 
   return (
@@ -70,8 +94,7 @@ function MobileHeader({ user, handleSearch }) {
                   variant="outline-success"
                   onClick={toggleSearch}
                   className="mr-2"
-                  style={{maxHeight:"30",marginTop:"4"}}
-              
+                  style={{ maxHeight: "30", marginTop: "4" }}
                 >
                   <FaSearch size={15} />
                 </Button>
@@ -103,14 +126,6 @@ function MobileHeader({ user, handleSearch }) {
                         width="25"
                         height="25"
                       />
-                    </Nav.Link>
-                  </OverlayTrigger>
-                  <OverlayTrigger
-                    placement="bottom"
-                    overlay={<Tooltip>Logout</Tooltip>}
-                  >
-                    <Nav.Link onClick={handleLogout}>
-                      <FaSignOutAlt size={20} />
                     </Nav.Link>
                   </OverlayTrigger>
                   <OverlayTrigger
@@ -150,6 +165,23 @@ function MobileHeader({ user, handleSearch }) {
                   <FaQuestionCircle size={20} />
                 </Nav.Link>
               </OverlayTrigger>
+              <OverlayTrigger
+                placement="bottom"
+                overlay={
+                  <Tooltip>
+                    {mode === "light" ? "Dark Mode" : "Light Mode"}
+                  </Tooltip>
+                }
+              >
+                <Nav.Link
+                  className={`d-flex align-items-center mr-2 ${
+                    mode === "light" ? "text-secondary" : "text-white"
+                  }`}
+                  onClick={toggleColorMode}
+                >
+                  {mode === "dark" ? <FaMoon size={15} /> : <FaSun size={15} />}
+                </Nav.Link>
+              </OverlayTrigger>{" "}
             </Nav>
           </>
         )}

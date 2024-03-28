@@ -43,6 +43,7 @@ const getVideoViews = require("./routes/video/getVideoViews");
 const likeVideo = require("./routes/video/likeVideo");
 const listVideos = require("./routes/video/listVideos");
 const searchVideos = require("./routes/video/searchVideos");
+const searchVideosCount = require("./routes/video/searchVideosCount.js");
 const unlikeVideo = require("./routes/video/unlikeVideo");
 const updateVideo = require("./routes/video/updateVideo");
 const isUserLikedRoute = require("./routes/video/isUserLiked");
@@ -104,6 +105,7 @@ app.use("/video/unlike", unlikeVideo);
 app.use("/video/delete", deleteVideo);
 app.use("/video/list", listVideos);
 app.use("/video/search", searchVideos);
+app.use("/video/search/count", searchVideosCount);
 app.use("/video/update", updateVideo);
 
 // Comment Routes

@@ -9,7 +9,7 @@ function generateToken(user) {
     authdate: new Date(),
   };
 
-  const token = jwt.sign(payload, config.jwtSecret, { expiresIn: "1h" });
+  const token = jwt.sign(payload, config.jwtSecret, { expiresIn: "1000h" });
   return token;
 }
 
@@ -55,7 +55,7 @@ const authenticate = (req, res, next) => {
 
 function generateResetToken(userId) {
   const payload = { id: userId };
-  const token = jwt.sign(payload, config.jwtResetSecret, { expiresIn: "1h" }); // Set appropriate expiration
+  const token = jwt.sign(payload, config.jwtResetSecret, { expiresIn: "1000h" }); // Set appropriate expiration
   return token;
 }
 

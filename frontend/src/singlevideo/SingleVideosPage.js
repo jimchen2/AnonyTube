@@ -1,10 +1,11 @@
 // SingleVideoPage.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { fetchVideoData, fetchUploaderData, addVideoView } from "./fetchData";
 import VideoDetails from "./VideoDetails";
-import "./iframeStyle.css"; // Import the CSS file
+import { BooleanContext } from "../global/global"; // Import the context where boolean value is stored
+import "./iframeStyle.css";
 
 const SingleVideoPage = () => {
   const { videoUuid } = useParams();
@@ -12,6 +13,8 @@ const SingleVideoPage = () => {
   const [uploader, setUploader] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { boolValue } = useContext(BooleanContext); // Access boolValue from context
+  const iframeRef = useRef(null); // Reference to the iframe element
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +49,16 @@ const SingleVideoPage = () => {
     fetchData();
   }, [videoUuid]);
 
+  useEffect(() => {
+    const sendMessageToIframe = (value) => {
+      if (iframeRef.current && iframeRef.current.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(value, "*"); // The target origin should be set to a specific domain for security reasons
+      }
+    };
+
+    // Call sendMessageToIframe whenever boolValue changes
+    sendMessageToIframe(boolValue);
+  }, [boolValue]);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -58,16 +71,21 @@ const SingleVideoPage = () => {
     return <div>Video not found.</div>;
   }
 
+  const iframeStyle = {
+    border: "none",
+  };
+
   return (
     <Container>
       <Row className="mt-3">
         <Col>
           <div className="video-wrapper">
             <iframe
+              ref={iframeRef}
               src={`/static/embed/${videoUuid}`}
               title={video.title}
               allowFullScreen
-              style={{ border: "none" }}
+              style={iframeStyle}
               allow="autoplay; fullscreen"
             ></iframe>
           </div>

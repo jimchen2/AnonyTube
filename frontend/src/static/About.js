@@ -22,6 +22,8 @@ function About() {
 
   return (
     <div style={{ fontFamily: "'Ubuntu', sans-serif" }}>
+              <br/>
+
       <ReactMarkdown components={customComponents}>
         {aboutContent}
       </ReactMarkdown>

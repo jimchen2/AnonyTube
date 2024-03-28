@@ -11,7 +11,8 @@ const VideoDetails = ({ video, uploader: initialUploader, videoUuid }) => {
 
   const handleFollowStatusChange = async () => {
     try {
-      const { data: uploaderData, error: uploaderError } = await fetchUploaderData(video.uploaderuuid);
+      const { data: uploaderData, error: uploaderError } =
+        await fetchUploaderData(video.uploaderuuid);
       if (uploaderError) {
         console.error("Error fetching uploader data:", uploaderError);
       } else {
@@ -45,16 +46,15 @@ const VideoDetails = ({ video, uploader: initialUploader, videoUuid }) => {
               {uploader.followercount} followers
             </small>
           </div>
-          <span style={{width:"20px"}}/>
+          <span style={{ width: "20px" }} />
           <FollowButton
-  profileUserId={uploader.useruuid}
-  onFollowStatusChange={handleFollowStatusChange}
-/>
+            profileUserId={uploader.useruuid}
+            onFollowStatusChange={handleFollowStatusChange}
+          />
         </div>
         <div>
           <LikeButton videoUuid={videoUuid} />
         </div>
-
       </div>
       <div className="mt-3">
         {video.videourl.map((format) => (
@@ -78,7 +78,9 @@ const VideoDetails = ({ video, uploader: initialUploader, videoUuid }) => {
               Uploaded on {new Date(video.createdAt).toLocaleDateString()}
             </small>
           </div>
-          <Card.Text className="mt-2">{video.description}</Card.Text>
+          <Card.Text className="mt-2" style={{ whiteSpace: "pre-line" }}>
+            {video.description}
+          </Card.Text>{" "}
         </Card.Body>
       </Card>
       <div className="mt-3">

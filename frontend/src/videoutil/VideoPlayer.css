@@ -1,6 +1,7 @@
-.subtitle-overlay {
+/* ./videoplayer.css */
+.subtitle-wrapper {
   position: absolute;
-  bottom: 20px;
+  bottom: 20px; /* Adjust this value to position the subtitles below the control bar */
   left: 0;
   right: 0;
   display: flex;
@@ -10,7 +11,7 @@
 }
 
 .subtitle-background {
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 4px 0px;
   border-radius: 4px;
 }
@@ -18,6 +19,26 @@
 .subtitle-text {
   color: white;
   text-align: center;
+  margin: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.video-react .video-react-control-bar {
+  z-index: 2; /* Ensure the control bar appears above the subtitles */
+}
+
+.subtitle-text {
+  font-size: 30px;
+}
+
+/* Font size for smaller screens */
+@media screen and (max-width: 700px) {
+  .subtitle-text {
+    font-size: 18px;
+  }
 }
 
 .hidden {
@@ -58,4 +79,27 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 = 0.5625) */
+  background-color: black;
+}
+
+.video-container > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-react {
+  max-width: 100%;
+  max-height: 100%;
 }

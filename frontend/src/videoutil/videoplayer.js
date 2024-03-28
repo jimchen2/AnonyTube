@@ -1,20 +1,26 @@
-import React, { useState, useRef } from "react";
-import { Player, ControlBar, LoadingSpinner, BigPlayButton } from "video-react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import "video-react/dist/video-react.css";
-import { Dropdown, ButtonGroup, Button, Form } from "react-bootstrap";
-import { useFetchSubtitles, handleTimeUpdate } from "./VideoHelper";
+import { useFetchSubtitles } from "./VideoHelper";
 import "./VideoPlayer.css";
-import { useEffect } from "react";
+import VideoContainer from "./VideoContainer";
+import VideoControls from "./VideoControls";
+import { FRONTEND_BASE_URL } from "../config";
+import { BooleanContext } from "../global/global"; // Import the context
 
 const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
   const [selectedQuality, setSelectedQuality] = useState("default");
   const [selectedSubtitles, setSelectedSubtitles] = useState([]);
+  const [bgColor, setBgColor] = useState("white"); // Initial background color
+  const { boolValue } = useContext(BooleanContext); // Access boolValue from context
+
   useEffect(() => {
+    // Set initial background color based on boolValue
+    setBgColor(boolValue === 0 ? "white" : "#242525");
+
     if (Array.isArray(subtitles) && subtitles.length > 0) {
-      console.log(subtitles[0]);
       setSelectedSubtitles([subtitles[0]["language"]]);
     }
-  }, [subtitles]);
+  }, [subtitles, boolValue]); // Add boolValue to the dependency array
 
   const [subtitleTexts, setSubtitleTexts] = useState([]);
   const [fontSize, setFontSize] = useState(30);
@@ -30,7 +36,6 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
 
   const handleSubtitleSelect = (language) => {
     setSelectedSubtitles((prevSubtitles) => {
-      console.log(prevSubtitles);
       if (prevSubtitles.includes(language)) {
         return prevSubtitles.filter((subtitle) => subtitle !== language);
       } else {
@@ -41,125 +46,52 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
 
   useFetchSubtitles(selectedSubtitles, subtitles, setSubtitleTexts);
 
-  const SubtitleComponent = () => {
-    const subtitleLines = selectedSubtitles.map((language) => {
-      const subtitleText = subtitleTexts
-        .filter((subtitle) => subtitle.language === language)
-        .map((subtitle) => subtitle.text)
-        .join("\n");
-      return (
-        <p
-          key={language}
-          className="subtitle-text"
-          style={{ fontSize: `${fontSize}px` }}
-        >
-          {subtitleText}
-        </p>
-      );
-    });
-
-    return (
-      <div
-        className={`subtitle-overlay ${
-          subtitleLines.length === 0 ? "hidden" : ""
-        }`}
-      >
-        <div className="subtitle-background">{subtitleLines}</div>
-      </div>
-    );
-  };
-
   const handleFontSizeChange = (size) => {
     setFontSize(size);
   };
 
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.origin === FRONTEND_BASE_URL) {
+        const receivedValue = event.data;
+        console.log("Received value from parent:", receivedValue);
+
+        // Toggle background color
+        setBgColor((prevBgColor) =>
+          prevBgColor === "white" ? "#242525" : "white"
+        );
+      }
+    };
+
+    // Add the event listener
+    window.addEventListener("message", handleMessage);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
+
   return (
-    <div>
-      <div
-        style={{
-          width: "100%",
-          height: 0,
-          paddingBottom: "56.25%",
-          position: "relative",
-        }}
-      >
-        <Player
-          ref={playerRef}
-          onTimeUpdate={() =>
-            handleTimeUpdate(playerRef, subtitleTexts, setSubtitleTexts)
-          }
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-          }}
-          key={selectedVideo.url} // Add this line
-        >
-          <source src={selectedVideo.url} />
-          <LoadingSpinner />
-          <BigPlayButton position="center" />
+    <div style={{ background: bgColor }}>
+      <VideoContainer
+        selectedVideo={selectedVideo}
+        playerRef={playerRef}
+        subtitleTexts={subtitleTexts}
+        setSubtitleTexts={setSubtitleTexts}
+        selectedSubtitles={selectedSubtitles}
+      />
 
-          <ControlBar />
-
-          <SubtitleComponent />
-        </Player>{" "}
-      </div>
-      <ButtonGroup>
-        <Dropdown as={ButtonGroup} align="end">
-          <Button variant="secondary">{selectedQuality}</Button>
-          <Dropdown.Toggle split variant="secondary" id="quality-dropdown" />
-          <Dropdown.Menu>
-            {videourl.map((video) => (
-              <Dropdown.Item
-                key={video.quality}
-                onClick={() => handleQualityChange(video.quality)}
-                active={selectedQuality === video.quality}
-              >
-                {video.quality}
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-        <Dropdown as={ButtonGroup} align="end">
-          <Button variant="info">
-            {selectedSubtitles.length === 0
-              ? "No Subtitles"
-              : selectedSubtitles.join(", ")}
-          </Button>
-          <Dropdown.Toggle split variant="info" id="subtitle-dropdown" />
-          <Dropdown.Menu>
-            <Form className="subtitle-checkboxes">
-              {subtitles.map((subtitle) => (
-                <Form.Check
-                  key={subtitle.language}
-                  type="checkbox"
-                  label={subtitle.language}
-                  checked={selectedSubtitles.includes(subtitle.language)}
-                  onChange={() => handleSubtitleSelect(subtitle.language)}
-                  className="subtitle-checkbox"
-                />
-              ))}
-            </Form>
-          </Dropdown.Menu>
-        </Dropdown>
-        <Dropdown as={ButtonGroup} align="end">
-          <Button variant="success">{fontSize}px</Button>
-          <Dropdown.Toggle split variant="success" id="font-size-dropdown" />
-          <Dropdown.Menu>
-            {[15, 20, 25, 30, 35].map((size) => (
-              <Dropdown.Item
-                key={size}
-                onClick={() => handleFontSizeChange(size)}
-                active={fontSize === size}
-              >
-                {size}px
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      </ButtonGroup>
+      <VideoControls
+        videourl={videourl}
+        subtitles={subtitles}
+        selectedQuality={selectedQuality}
+        selectedSubtitles={selectedSubtitles}
+        fontSize={fontSize}
+        handleQualityChange={handleQualityChange}
+        handleSubtitleSelect={handleSubtitleSelect}
+        handleFontSizeChange={handleFontSizeChange}
+      />
     </div>
   );
 };

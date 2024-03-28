@@ -1,4 +1,4 @@
-// src/routes/video/searchVideos.js
+// src/routes/video/searchVideosCount.js
 const express = require("express");
 const router = express.Router();
 const Video = require("../../models/Videos");
@@ -7,7 +7,6 @@ router.get("/", async (req, res) => {
   try {
     const {
       query,
-      sort,
       durationMin,
       durationMax,
       uploadedAfter,
@@ -15,12 +14,10 @@ router.get("/", async (req, res) => {
       language,
       resolution,
       uploaderuuid,
-      limit,
       hasuserwatched,
       watchedunwatched,
       uuid,
       hasnotwatched,
-      start,
     } = req.query;
     const searchRegex = new RegExp(query, "i");
 
@@ -91,42 +88,11 @@ router.get("/", async (req, res) => {
       searchConditions["views.useruuid"] = { $ne: hasnotwatched };
     }
 
-    let sortConditions = {};
-    switch (sort) {
-      case "views":
-        sortConditions = { viewscount: -1, likecount: -1 };
-        break;
-      case "likes":
-        sortConditions = { likecount: -1, viewscount: -1 };
-        break;
-      case "uploaddate":
-        sortConditions = { createdAt: -1 };
-        break;
-      case "random":
-        break;
-      default:
-        sortConditions = { createdAt: -1 };
-    }
+    const totalResults = await Video.countDocuments(searchConditions);
 
-    const limitValue = parseInt(limit) || 10;
-    const startValue = parseInt(start) || 0;
-
-    let videos;
-    if (sort === "random") {
-      videos = await Video.aggregate([
-        { $match: searchConditions },
-        { $sample: { size: limitValue } },
-      ]);
-    } else {
-      videos = await Video.find(searchConditions)
-        .sort(sortConditions)
-        .skip(startValue)
-        .limit(limitValue);
-    }
-
-    res.status(200).json({ videos });
+    res.status(200).json({ totalResults });
   } catch (error) {
-    console.error("Error searching videos:", error);
+    console.error("Error getting search videos count:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });

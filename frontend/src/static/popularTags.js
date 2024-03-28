@@ -1,9 +1,9 @@
 const popularTags = [
   "beauty",
   "beauty/fashion",
-  "beauty/hair tutorials",
-  "beauty/makeup tutorials",
-  "beauty/product reviews",
+  "beauty/general",
+  "beauty/hair",
+  "beauty/makeup",
   "beauty/skincare",
 
   "computer science",
@@ -16,26 +16,29 @@ const popularTags = [
   "computer science/rl",
   "computer science/security",
   "computer science/vision & nlp",
-  "computer science/web development",
+  "computer science/web",
 
   "documentary",
   "documentary/art",
   "documentary/biography",
   "documentary/history",
   "documentary/nature",
+  "documentary/science",
 
-  "gaming",
-  "gaming/action",
-  "gaming/adventure",
-  "gaming/casual",
-  "gaming/racing",
-  "gaming/rpg",
-  "gaming/sports",
-  "gaming/strategy",
+  "live streaming",
+  "live streaming/gaming",
+  "live streaming/general",
+  "live streaming/music",
+  "live streaming/talk",
+
+  "interview",
+  "interview/entertainment",
+  "interview/sports",
+  "interview/politics",
+  "interview/business",
 
   "music",
   "music/classical",
-  "music/country",
   "music/electronic",
   "music/hiphop",
   "music/jazz",
@@ -47,8 +50,7 @@ const popularTags = [
   "news",
   "news/general",
   "news/international",
-  "news/science & technology",
-  "news/sports",
+  "news/politics",
 
   "sport",
   "sport/basketball",
@@ -59,12 +61,6 @@ const popularTags = [
   "sport/soccer",
   "sport/swimming",
   "sport/yoga",
-
-  "travel",
-  "travel/travel vlogs",
-  "travel/travel guides",
-  "travel/food & culture",
-  "travel/adventure travel",
 ];
 
 export default popularTags;

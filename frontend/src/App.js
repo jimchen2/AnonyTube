@@ -1,23 +1,25 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./static/Header";
-import LoginPage from "./login/LoginPage";
-import SignupPage from "./signup/SignupPage";
-import PublicProfilePage from "./profile/PublicProfilePage";
-import EditPage from "./editpersonal/EditPage";
-import UploadVideoPage from "./uploadvideo/UploadVideo";
-import SingleVideoPage from "./singlevideo/SingleVideosPage";
-import About from "./static/About";
-import HomePage from "./homepage/HomePage";
-import SearchPage from "./search/SearchPage";
-import VideoIframe from "./videoutil/Videoiframe";
-import EditVideoPage from "./editsinglevideo/EditVideoPage";
-import OAuthSuccess from "./Oauth/OAuthSuccess";
+
+const LoginPage = lazy(() => import("./login/LoginPage"));
+const SignupPage = lazy(() => import("./signup/SignupPage"));
+const PublicProfilePage = lazy(() => import("./profile/PublicProfilePage"));
+const EditPage = lazy(() => import("./editpersonal/EditPage"));
+const UploadVideoPage = lazy(() => import("./uploadvideo/UploadVideo"));
+const SingleVideoPage = lazy(() => import("./singlevideo/SingleVideosPage"));
+const About = lazy(() => import("./static/About"));
+const HomePage = lazy(() => import("./homepage/HomePage"));
+const SearchPage = lazy(() => import("./search/SearchPage"));
+const VideoIframe = lazy(() => import("./videoutil/Videoiframe"));
+const EditVideoPage = lazy(() => import("./editsinglevideo/EditVideoPage"));
+const OAuthSuccess = lazy(() => import("./Oauth/OAuthSuccess"));
 
 function App() {
   return (
     <Router>
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/static/embed/:uuid" element={<VideoIframe />} />
           <Route path="/oauth-success" element={<OAuthSuccess />} />
@@ -100,6 +102,7 @@ function App() {
             }
           />
         </Routes>
+      </Suspense>
     </Router>
   );
 }

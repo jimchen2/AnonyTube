@@ -4,7 +4,7 @@ import { fetchUser } from "./authService";
 import ComputerHeader from "./ComputerHeader";
 import MobileHeader from "./MobileHeader";
 
-function Header() {
+function Header( {toggleiframetheme}) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function Header() {
   return (
     <>
       <div className="d-none d-lg-block">
-        <ComputerHeader user={user} handleSearch={handleSearch} />
+        <ComputerHeader user={user} handleSearch={handleSearch} toggleiframetheme={toggleiframetheme}  />
       </div>
       <div className="d-lg-none">
         <MobileHeader user={user} handleSearch={handleSearch} />

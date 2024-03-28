@@ -4,8 +4,8 @@ import axios from "axios";
 import VideoPlayer from "./videoplayer";
 import { API_BASE_URL } from "../config";
 
-function VideoIframe() {
-  const { uuid } = useParams(); // Use useParams to get uuid from the URL
+function VideoIframe({}) {
+  const { uuid } = useParams();
 
   const [videoUrl, setVideoUrl] = useState("");
   const [subtitles, setSubtitles] = useState([]);
@@ -36,7 +36,6 @@ function VideoIframe() {
     fetchVideoData();
   }, [uuid]);
 
-//   console.log(subtitles)
   return isFetchSuccessful ? (
     <VideoPlayer videourl={videoUrl} subtitles={subtitles} />
   ) : null;

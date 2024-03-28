@@ -19,7 +19,7 @@ const SearchPage = ({ query }) => {
   const fetchSearchResults = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/video/search`, {
-        params: { query },
+        params: { query, limit: 20 },
       });
       setVideos(response.data.videos);
     } catch (error) {

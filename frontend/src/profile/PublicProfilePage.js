@@ -113,7 +113,7 @@ function PublicProfilePage() {
               ) : (
                 <Row>
                   {userVideos.map((video) => (
-                    <Col key={video._id} sm={6} md={4} lg={5}>
+                    <Col key={video._id} sm={6} md={4} lg={4}>
                       <VideoCard video={video} />
                     </Col>
                   ))}

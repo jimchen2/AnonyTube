@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   Nav,
@@ -9,11 +9,36 @@ import {
   Image,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {
+  enable as enableDarkMode,
+  disable as disableDarkMode,
+} from "darkreader";
+import { BooleanContext } from "../global/global";
+import { useContext } from "react";
 
 function ComputerHeader({ user, handleSearch }) {
+  const [mode, setMode] = useState("light");
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
+  };
+
+  const { boolValue, toggleBoolValue } = useContext(BooleanContext);
+
+  const toggleColorMode = () => {
+    toggleBoolValue();
+    const newMode = mode === "light" ? "dark" : "light";
+    setMode(newMode);
+    if (newMode === "dark") {
+      enableDarkMode({
+        brightness: 100,
+        contrast: 90,
+        sepia: 10,
+      });
+    } else {
+      disableDarkMode();
+    }
   };
 
   return (
@@ -73,6 +98,13 @@ function ComputerHeader({ user, handleSearch }) {
             </Button>
           </Form>
           <Nav className="ml-auto align-items-center">
+            <Nav.Link
+              onClick={toggleColorMode}
+              className="d-flex align-items-center mr-2"
+            >
+              {mode === "dark" ? <>Dark</> : <>Light</>}
+            </Nav.Link>
+            <div style={{ margin: "20px" }}></div>
             {user ? (
               <>
                 <Navbar.Brand

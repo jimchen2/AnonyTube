@@ -1,15 +1,19 @@
+// ./searchpage
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import VideoCard from "./VideoCard";
 import SearchForm from "./SearchForm";
-import { fetchSearchResults } from "./searchUtils";
+import { fetchSearchResults, fetchTotalSearchResultsCount } from "./searchUtils";
+import Pagination from "./Pagination";
 
 const SearchPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const [videos, setVideos] = useState([]);
+  const [totalResults, setTotalResults] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchOptions, setSearchOptions] = useState({
     query: searchParams.get("query") || "",
     duration: searchParams.get("duration") || "",
@@ -20,15 +24,21 @@ const SearchPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const searchResults = await fetchSearchResults(searchOptions, navigate);
+        const searchResults = await fetchSearchResults(
+          { ...searchOptions, start: (currentPage - 1) * 20 },
+          navigate
+        );
         setVideos(searchResults);
+
+        const totalCount = await fetchTotalSearchResultsCount(searchOptions);
+        setTotalResults(totalCount);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
     };
 
     fetchData();
-  }, [searchOptions, navigate]);
+  }, [searchOptions, currentPage, navigate]);
 
   useEffect(() => {
     const newSearchOptions = {
@@ -38,6 +48,7 @@ const SearchPage = () => {
       language: searchParams.get("language") || "",
     };
     setSearchOptions(newSearchOptions);
+    setCurrentPage(1);
   }, [location.search]);
 
   const handleSearchOptionChange = (event) => {
@@ -46,7 +57,14 @@ const SearchPage = () => {
       ...prevOptions,
       [name]: value,
     }));
+    setCurrentPage(1);
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const totalPages = Math.ceil(totalResults / 20);
 
   return (
     <Container>
@@ -62,6 +80,13 @@ const SearchPage = () => {
           </Col>
         ))}
       </Row>
+      <div className="d-flex justify-content-center mt-4">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </Container>
   );
 };
