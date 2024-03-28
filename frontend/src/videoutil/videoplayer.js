@@ -11,9 +11,9 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
   const [selectedSubtitles, setSelectedSubtitles] = useState([]);
   useEffect(() => {
     if (Array.isArray(subtitles) && subtitles.length > 0) {
-      console.log(subtitles[0])
-      setSelectedSubtitles([subtitles[0]["language"]]); 
-    } 
+      console.log(subtitles[0]);
+      setSelectedSubtitles([subtitles[0]["language"]]);
+    }
   }, [subtitles]);
 
   const [subtitleTexts, setSubtitleTexts] = useState([]);
@@ -30,7 +30,7 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
 
   const handleSubtitleSelect = (language) => {
     setSelectedSubtitles((prevSubtitles) => {
-      console.log(prevSubtitles)
+      console.log(prevSubtitles);
       if (prevSubtitles.includes(language)) {
         return prevSubtitles.filter((subtitle) => subtitle !== language);
       } else {
@@ -95,6 +95,7 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
             width: "100%",
             height: "100%",
           }}
+          key={selectedVideo.url} // Add this line
         >
           <source src={selectedVideo.url} />
           <LoadingSpinner />
@@ -103,7 +104,7 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
           <ControlBar />
 
           <SubtitleComponent />
-        </Player>
+        </Player>{" "}
       </div>
       <ButtonGroup>
         <Dropdown as={ButtonGroup} align="end">

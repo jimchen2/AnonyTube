@@ -5,10 +5,11 @@ import boto3
 from pymongo import MongoClient
 from config import mongoURI, publicurl, s3_bucket, s3_access_key, s3_secret_key, s3_endpoint
 from datetime import datetime
+import argparse
 
 def download_video(url, download_folder, filename_template):
     file_path = os.path.join(download_folder, filename_template)
-    subprocess.run(["yt-dlp", "-o", file_path, url,"-N","100"], check=True)
+    subprocess.run(["yt-dlp", "-o", file_path, url, "-N", "100"], check=True)
     return os.path.join(download_folder, os.listdir(download_folder)[-1])
 
 def download_image(url, download_folder, filename_template):
@@ -32,7 +33,7 @@ def upload_to_s3(file_path, s3, bucket, key):
 
 def create_video_document(video_uuid, preview_image_url, video_url, language, title, tags, duration):
     client = MongoClient(mongoURI)
-    db = client["videoPlatform"]
+    db = client["test"]
     video_collection = db["videos"]
 
     video_data = {
@@ -110,14 +111,21 @@ def create_video(videourl, title, imageurl, language, tags):
             os.remove(video_path)
         if image_path is not None and os.path.exists(image_path):
             os.remove(image_path)
+def main():
+    parser = argparse.ArgumentParser(description='Create a video')
+    parser.add_argument('--video', required=True, help='URL of the video to be downloaded')
+    parser.add_argument('--title', help='Title of the video')
+    parser.add_argument('--imageurl', required=True, help='URL of the preview image to be downloaded')
+    parser.add_argument('--language', default='en', help='Language of the video (default: en)')
+    parser.add_argument('--tags', nargs='+', default=[], help='Tags associated with the video')
 
-if __name__ == "__main__":
-    # Example usage
-    video_url = "https://www.youtube.com/watch?v=pjZZusU0nkk"
-    # video_title = "My Awesome Video"
-    image_url = "https://i.ytimg.com/vi/pjZZusU0nkk/hqdefault.jpg"
-    video_language = "ru"
-    video_tags = ["music", "music/rock", "SHAMAN"]
+    args = parser.parse_args()
 
-    result = create_video(video_url, None, image_url, video_language, video_tags)
-    print(result)
+    create_video(args.video, args.title, args.imageurl, args.language, args.tags)
+
+if __name__ == '__main__':
+    main()
+
+
+
+# python create_video.py --video "https://www.1tv.ru/news/issue/2024-02-10/12:00" --imageurl "https://static.1tv.ru/uploads/video/material/splash/2024/03/24/858786/_original/858786_f487833c7c.jpg" --language "ru" --tags news 
