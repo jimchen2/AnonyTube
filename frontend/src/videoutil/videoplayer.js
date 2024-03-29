@@ -20,10 +20,22 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
     if (Array.isArray(subtitles) && subtitles.length > 0) {
       setSelectedSubtitles([subtitles[0]["language"]]);
     }
-  }, [subtitles, boolValue]); // Add boolValue to the dependency array
+
+    // Check if 720p video is available and update selectedQuality
+    const foundVideo =
+      videourl.find((video) => video.quality === "720p") ||
+      videourl.find((video) => video.quality === selectedQuality);
+
+    if (foundVideo && foundVideo.quality === "720p") {
+      setSelectedQuality("720p");
+    } else {
+      setSelectedQuality("default");
+    }
+  }, [subtitles, boolValue, videourl]); // Add videourl to the dependency array
 
   const [subtitleTexts, setSubtitleTexts] = useState([]);
-  const [fontSize, setFontSize] = useState(30);
+  const initialFontSize = window.innerWidth > 700 ? 30 : 18;
+  const [fontSize, setFontSize] = useState(initialFontSize);
   const playerRef = useRef(null);
 
   const selectedVideo = videourl.find(
@@ -80,6 +92,7 @@ const VideoPlayer = ({ videourl = [], subtitles = [] }) => {
         subtitleTexts={subtitleTexts}
         setSubtitleTexts={setSubtitleTexts}
         selectedSubtitles={selectedSubtitles}
+        fontSize={fontSize} // Pass the fontSize prop
       />
 
       <VideoControls

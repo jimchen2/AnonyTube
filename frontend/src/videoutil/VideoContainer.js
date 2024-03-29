@@ -15,6 +15,7 @@ const VideoContainer = ({
   subtitleTexts,
   setSubtitleTexts,
   selectedSubtitles,
+  fontSize, // Receive the fontSize prop
 }) => {
   return (
     <div>
@@ -38,6 +39,7 @@ const VideoContainer = ({
           <SubtitleComponent
             selectedSubtitles={selectedSubtitles}
             subtitleTexts={subtitleTexts}
+            fontSize={fontSize} // Pass the fontSize prop
           />
         </Player>
       </div>

@@ -6,6 +6,7 @@ import { fetchVideoData, fetchUploaderData, addVideoView } from "./fetchData";
 import VideoDetails from "./VideoDetails";
 import { BooleanContext } from "../global/global"; // Import the context where boolean value is stored
 import "./iframeStyle.css";
+import { FRONTEND_BASE_URL } from "../config";
 
 const SingleVideoPage = () => {
   const { videoUuid } = useParams();
@@ -52,7 +53,7 @@ const SingleVideoPage = () => {
   useEffect(() => {
     const sendMessageToIframe = (value) => {
       if (iframeRef.current && iframeRef.current.contentWindow) {
-        iframeRef.current.contentWindow.postMessage(value, "*"); // The target origin should be set to a specific domain for security reasons
+        iframeRef.current.contentWindow.postMessage(value, FRONTEND_BASE_URL); // The target origin should be set to a specific domain for security reasons
       }
     };
 
