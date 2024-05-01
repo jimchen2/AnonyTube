@@ -15,6 +15,7 @@ sudo systemctl daemon-reload && sudo systemctl enable --now VideoPlatform
 
 sudo -u builduser bash -c 'cd /var/www/AnonyTube/frontend; npm install; npm run build'
 
+sudo systemctl stop nginx
 certbot certonly --standalone -d anonytube.jimchen.me --email jimchen4214@gmail.com --non-interactive --agree-tos && systemctl enable --now certbot-renew.timer 
 
 mkdir -p /etc/nginx/{sites-available,sites-enabled} && sudo ln -sf /etc/nginx/sites-available/AnonyTube.conf /etc/nginx/sites-enabled/
