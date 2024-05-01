@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Create a new file config.py in / folder
+
+######################################
+
+# Run on 8 GB Linode
+
 # Update system and install packages
 sudo pacman -Syu --noconfirm
 sudo pacman -S git git-lfs base-devel yt-dlp ffmpeg --noconfirm
@@ -43,8 +49,7 @@ sudo -u builduser git clone https://huggingface.co/facebook/nllb-200-distilled-6
 sudo -u builduser bash -c 'cd /home/builduser/nllb-200-distilled-600M && git lfs install && git lfs pull'
 
 # Clone and setup private repo
-sudo -u builduser git clone https://github.com/jimchen2/private_repo /home/builduser/private_repo
-sudo -u builduser mv /home/builduser/private_repo/config.py /home/builduser/Worker/config.py
+sudo mv /config.py /home/builduser/Worker/config.py
 
 # Create systemd service file for worker service
 cat <<EOF | sudo tee /etc/systemd/system/worker.service
