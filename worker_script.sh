@@ -16,9 +16,9 @@ sudo passwd -d builduser
 echo 'builduser ALL=(ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/builduser
 
 # Clone and setup worker environment
-sudo -u builduser git clone https://github.com/jimchen2/AnonyTube-updated- /home/builduser/AnonyTube-updated-
-sudo -u builduser mv /home/builduser/AnonyTube-updated-/Worker/ /home/builduser/
-sudo rm -r /home/builduser/AnonyTube-updated-/
+sudo -u builduser git clone https://github.com/jimchen2/AnonyTube /home/builduser/AnonyTube
+sudo -u builduser mv /home/builduser/AnonyTube/Worker/ /home/builduser/
+sudo rm -r /home/builduser/AnonyTube/
 
 # Create run_worker.py as builduser
 sudo -u builduser bash -c 'cat <<'"'"'EOF'"'"' > /home/builduser/Worker/run_worker.py
@@ -49,7 +49,7 @@ sudo -u builduser git clone https://huggingface.co/facebook/nllb-200-distilled-6
 sudo -u builduser bash -c 'cd /home/builduser/nllb-200-distilled-600M && git lfs install && git lfs pull'
 
 # Clone and setup private repo
-sudo mv /config.py /home/builduser/Worker/config.py
+sudo mv /root/config.py /home/builduser/Worker/config.py
 
 # Create systemd service file for worker service
 cat <<EOF | sudo tee /etc/systemd/system/worker.service
