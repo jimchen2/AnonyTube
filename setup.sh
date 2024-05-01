@@ -10,7 +10,7 @@ sudo mkdir -p /var/www; sudo git clone https://github.com/jimchen2/AnonyTube /va
 sudo -u builduser bash -c 'cd /var/www/AnonyTube; mongorestore --dir=./dump;'
 
 sudo -u builduser bash -c 'cd /var/www/AnonyTube/VideoPlatform; npm install'
-sudo cp /var/www/AnonyTube/VideoPlatform.service /etc/systemd/system/VideoPlatform.service && sudo mv /root/config.js /var/www/AnonyTube/VideoPlatform/config.js
+sudo cp /var/www/AnonyTube/VideoPlatform.service /etc/systemd/system/VideoPlatform.service && sudo mv /root/config.js /var/www/AnonyTube/VideoPlatform/src/config.js
 sudo systemctl daemon-reload && sudo systemctl enable --now VideoPlatform
 
 sudo -u builduser bash -c 'cd /var/www/AnonyTube/frontend; npm install; npm run build'

@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=builduser
-WorkingDirectory=/var/www/AnonyTube/VideoPlatform
+WorkingDirectory=/var/www/AnonyTube/VideoPlatform/src
 ExecStart=/usr/bin/node server.js
 
 [Install]
