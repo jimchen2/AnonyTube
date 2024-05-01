@@ -1,0 +1,12 @@
+[Unit]
+Description=Start Backend
+After=network.target
+
+[Service]
+Type=simple
+User=builduser
+WorkingDirectory=/var/www/AnonyTube/VideoPlatform
+ExecStart=/usr/bin/node server.js
+
+[Install]
+WantedBy=multi-user.target
