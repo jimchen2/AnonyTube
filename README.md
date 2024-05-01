@@ -1,5 +1,3 @@
-Currently in Beta
-
 There are lots of minor issues, but no serious bugs
 
 ## ToDo List(including Issues):
