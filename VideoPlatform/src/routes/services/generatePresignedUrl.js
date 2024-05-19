@@ -40,7 +40,7 @@ router.post("/", authenticate, async (req, res) => {
       Key: objectKey,
     });
 
-    const url = await getSignedUrl(s3Client, command, { expiresIn: 300 }); // 5 minutes
+    const url = await getSignedUrl(s3Client, command, { expiresIn: 300000 });
 
     res.json({ url, objectKey });
   } catch (error) {

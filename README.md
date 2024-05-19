@@ -4,6 +4,7 @@ I am not actively developing this, but I will surely do it sometime in the futur
 
 ## ToDo List(including Issues):
 
+- [ ] Upload FileName Encoding Problem
 - [ ] Comments
 - [ ] Reimplementation of parts of the backend
 - [ ] User's homepage doesn't feature all videos (need to add paging)
