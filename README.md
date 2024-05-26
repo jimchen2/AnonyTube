@@ -26,8 +26,8 @@ This is a small app for personal use, and I didn't had the time for more secure 
 
 - [ ] No CSRF
 - [ ] No timestamps and nonce when logging in
-- [ ] No encryption of the post request when logging in
+- [ ] No encryption of the post request (e.g., user's password) when logging in
 - [ ] No Cors
 - [ ] Didn't store the token in Http-Only Cookie, instead stored it in Local Storage
 - [ ] No Captchas Protection
-
+- [ ] No MongoDB IP protection
