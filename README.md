@@ -19,3 +19,15 @@ I am not actively developing this, but I will surely do it sometime in the futur
 - [ ] Implement search for Users
 - [ ] Add "watched" option for logged in Users, which filters out watched videos
 - [ ] Add progress in videos, so for example in the url ?time=10s goes to the 10 second
+
+## Security Vulnerabilities
+
+This is a small app for personal use, and I didn't had the time for more secure implementations
+
+- [ ] No CSRF
+- [ ] No timestamps and nonce when logging in
+- [ ] No encryption of the post request when logging in
+- [ ] No Cors
+- [ ] Didn't store the token in Http-Only Cookie, instead stored it in Local Storage
+- [ ] No Captchas Protection
+
