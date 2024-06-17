@@ -1,8 +1,9 @@
+> This project has been archived and is no longer being developed or updated. 
+
+
 There are lots of minor issues, but no serious bugs
 
-I am not actively developing this, but I will surely do it sometime in the future!
-
-## ToDo List(including Issues):
+## Lacking Features or Issues
 
 - [ ] Upload FileName Encoding Problem
 - [ ] Comments
